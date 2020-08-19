@@ -22,6 +22,10 @@ app.use(bodyParser.urlencoded({ extended: true })); // application/x-www-form-ur
 app.use(bodyParser.json()); // application/json 타입으로 온 데이터를 분석해준다.
 app.use(cookieParser());
 
+app.get('/api/hello', (req, res) => {
+	res.send('헬로우~~');
+});
+
 app.get('/', (req, res) =>
 	res.send(`
 	<style>
@@ -37,11 +41,11 @@ app.get('/', (req, res) =>
 	<div style="text-align:center;">
 		<h1>시작은 미약하나 그 끝은 창대하리라</h1>
 	</div>
-`),
+`)
 );
 
 /* 회원가입 */
-app.post('/register', (req, res) => {
+app.post('/api/users/register', (req, res) => {
 	// 회원 가입할 떄 필요한 정보들을 client에서 가져오면, 그것들을 디비에 넣어준다.
 	// body안에는 json 형식으로 요청 데이터가 들어 있다. 이것은 bodyParser가 있어서 가능한 것이다.
 	const user = new User(req.body);
@@ -59,7 +63,7 @@ app.get('/remove', (req, res) => {
 	});
 });
 
-app.post('/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
 	// 이메일이 존재하는지
 	User.findOne({ email: req.body.email }, (err, user) => {
 		if (!user) {
